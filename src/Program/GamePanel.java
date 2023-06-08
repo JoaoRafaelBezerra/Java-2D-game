@@ -8,21 +8,24 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import Entities.Player;
+import Tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable{
 	
 	Thread gameThread;
+	
 	KeyHandler keyH = new KeyHandler();
 	Player player = new Player(this,keyH);
+	TileManager tile = new TileManager(this);
 	
 	final int originalTileSize = 16;
 	final int scale = 3;
 		
 	public final int tileSize = originalTileSize * scale;
-	final int maxScreenCol = 16;
-	final int maxScreenRow = 12;
-	final int screenWidth = tileSize * maxScreenCol;
-	final int screenHeight = tileSize * maxScreenRow;
+	public final int maxScreenCol = 16;
+	public final int maxScreenRow = 12;
+	public final int screenWidth = tileSize * maxScreenCol;
+	public final int screenHeight = tileSize * maxScreenRow;
 	
 	
 	int FPS = 60;
@@ -110,7 +113,10 @@ public class GamePanel extends JPanel implements Runnable{
 	{
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
+		
+		tile.draw(g2);//O metodo draw  precisa ser instanciado antes do player por conta das layers
 		player.draw(g2);
+		
 		g2.dispose();
 	}
 	
